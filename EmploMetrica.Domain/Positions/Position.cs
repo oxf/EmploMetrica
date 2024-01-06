@@ -1,4 +1,6 @@
-﻿namespace EmploMetrica.Domain.Entity
+﻿using EmploMetrica.Domain.Companies;
+
+namespace EmploMetrica.Domain.Positions
 {
     public class Position
     {

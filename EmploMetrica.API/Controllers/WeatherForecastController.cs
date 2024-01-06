@@ -1,4 +1,4 @@
-using EmploMetrica.Domain.Entity;
+using EmploMetrica.Domain.Company;
 using EmploMetrica.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc;
 

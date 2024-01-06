@@ -1,4 +1,4 @@
-﻿using EmploMetrica.Domain.Entity;
+﻿using EmploMetrica.Domain.Companies;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,11 @@ namespace EmploMetrica.Persistence.Contexts
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions): base(dbContextOptions)
+        {
+
+        }
+
+        public AppDbContext() : base()
         {
 
         }
