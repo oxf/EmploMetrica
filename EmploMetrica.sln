@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmploMetrica.Domain", "EmploMetrica.Domain\EmploMetrica.Domain.csproj", "{1FEB9550-A42F-4054-A083-BDE41C22249E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmploMetrica.Application", "EmploMetrica.Application\EmploMetrica.Application.csproj", "{28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmploMetrica.Infrastructure", "EmploMetrica.Infrastructure\EmploMetrica.Infrastructure.csproj", "{09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmploMetrica.Persistence", "EmploMetrica.Persistence\EmploMetrica.Persistence.csproj", "{BB42212D-FC31-4DC4-B7DE-94E4DFAED306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmploMetrica.API", "EmploMetrica.API\EmploMetrica.API.csproj", "{51AC8C20-D6FB-4A66-9D57-7EAA4FBC60DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4} = {09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4}
+		{1FEB9550-A42F-4054-A083-BDE41C22249E} = {1FEB9550-A42F-4054-A083-BDE41C22249E}
+		{28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7} = {28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7}
+		{BB42212D-FC31-4DC4-B7DE-94E4DFAED306} = {BB42212D-FC31-4DC4-B7DE-94E4DFAED306}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FEB9550-A42F-4054-A083-BDE41C22249E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FEB9550-A42F-4054-A083-BDE41C22249E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FEB9550-A42F-4054-A083-BDE41C22249E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FEB9550-A42F-4054-A083-BDE41C22249E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D564FF-C940-4DB4-A4F1-EAC5CDC8E9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09733EE7-D2B3-4CB4-AAA9-C27C2FD19FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB42212D-FC31-4DC4-B7DE-94E4DFAED306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB42212D-FC31-4DC4-B7DE-94E4DFAED306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB42212D-FC31-4DC4-B7DE-94E4DFAED306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB42212D-FC31-4DC4-B7DE-94E4DFAED306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51AC8C20-D6FB-4A66-9D57-7EAA4FBC60DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51AC8C20-D6FB-4A66-9D57-7EAA4FBC60DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51AC8C20-D6FB-4A66-9D57-7EAA4FBC60DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51AC8C20-D6FB-4A66-9D57-7EAA4FBC60DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C90BE7CA-1859-4171-A71D-B0AF5691BFCE}
+	EndGlobalSection
+EndGlobal

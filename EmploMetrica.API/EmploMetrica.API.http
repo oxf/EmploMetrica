@@ -1,0 +1,6 @@
+@EmploMetrica.API_HostAddress = http://localhost:5256
+
+GET {{EmploMetrica.API_HostAddress}}/company/
+Accept: application/json
+
+###
