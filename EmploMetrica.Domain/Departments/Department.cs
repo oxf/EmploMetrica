@@ -1,15 +1,15 @@
-﻿using EmploMetrica.Domain.Departments;
+﻿using EmploMetrica.Domain.Companies;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EmploMetrica.Domain.Companies
+namespace EmploMetrica.Domain.Departments
 {
 
-    [Table("Company")]
-    public class Company
+    [Table("Department")]
+    public class Department
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
-        public List<Department> Departments { get; set; }
+        public Company Company { get; set; }
     }
 }
