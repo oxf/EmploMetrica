@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -24,7 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EmploMetrica.API\EmploMetrica.API.csproj" />
     <ProjectReference Include="..\EmploMetrica.Domain\EmploMetrica.Domain.csproj" />
+    <ProjectReference Include="..\EmploMetrica.Persistence\EmploMetrica.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

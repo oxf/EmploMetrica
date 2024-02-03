@@ -1,74 +1,44 @@
 using AutoMapper;
+using EmploMetrica.Application.UseCases.Companies;
 using EmploMetrica.Domain.Companies;
 using EmploMetrica.Persistence.Contexts;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmploMetrica.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CompanyController(AppDbContext _db, IMapper _mapper) : ControllerBase
+    public class CompanyController(CompanyService _companyService) : ControllerBase
     {
-        // GET: /Company/
         [HttpGet]
-        public ActionResult<IEnumerable<GetCompanyDTO>> Get()
+        public IActionResult Get()
         {
-            return Ok(_db.CompanyDbSet.Select(x => _mapper.Map<GetCompanyDTO>(x)).ToList());
+            return Ok(_companyService.Get());
         }
 
-        // GET: /Company/{id}
-        [HttpGet("{id}")]
-        public ActionResult<GetCompanyDTO> GetById(int id)
+        [HttpGet("{Id}")]
+        public IActionResult GetById(int Id)
         {
-            var company = _mapper.Map<GetCompanyDTO>(_db.CompanyDbSet.Find(id));
-            if (company == null)
-            {
-                return NotFound();
-            }
-            return Ok(company);
+            return Ok(_companyService.GetById(Id));
         }
 
-        // POST: /Company
         [HttpPost]
-        public ActionResult<GetCompanyDTO> Post([FromBody] CreateCompanyDTO companyDto)
+        public IActionResult Post([FromBody] CreateCompanyDTO companyDto)
         {
-            Company company = _mapper.Map<Company>(companyDto);
-            _db.CompanyDbSet.Add(company);
-            _db.SaveChanges();
-
-            return CreatedAtAction(nameof(GetById), new { id = company.Id }, _mapper.Map<GetCompanyDTO>(company));
+            return Ok(_companyService.Post(companyDto));
         }
 
-        // PUT: /Company/{id}
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Company updatedCompany)
+        [HttpPut("{Id}")]
+        public IActionResult Put(int Id, [FromBody] UpdateCompanyDTO updateCompanyDto)
         {
-            var company = _db.CompanyDbSet.Find(id);
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            company.Name = updatedCompany.Name;
-            company.IsActive = updatedCompany.IsActive;
-
-            _db.SaveChanges();
-            return NoContent();
+            return Ok(_companyService.Put(Id, updateCompanyDto));
         }
 
-        // DELETE: /Company/{id}
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{Id}")]
+        public IActionResult Delete(int Id)
         {
-            var company = _db.CompanyDbSet.Find(id);
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            _db.CompanyDbSet.Remove(company);
-            _db.SaveChanges();
-            return NoContent();
+            return Ok(_companyService.Delete(Id));
         }
     }
 }
