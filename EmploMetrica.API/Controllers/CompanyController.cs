@@ -4,6 +4,7 @@ using EmploMetrica.Domain.Companies;
 using EmploMetrica.Persistence.Contexts;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace EmploMetrica.API.Controllers
 {
@@ -14,31 +15,36 @@ namespace EmploMetrica.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_companyService.Get());
+            var value = _companyService.Get();
+            return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
 
         [HttpGet("{Id}")]
         public IActionResult GetById(int Id)
         {
-            return Ok(_companyService.GetById(Id));
+            var value = _companyService.GetById(Id);
+            return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] CreateCompanyDTO companyDto)
         {
-            return Ok(_companyService.Post(companyDto));
+            var value = _companyService.Post(companyDto);
+            return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
 
         [HttpPut("{Id}")]
         public IActionResult Put(int Id, [FromBody] UpdateCompanyDTO updateCompanyDto)
         {
-            return Ok(_companyService.Put(Id, updateCompanyDto));
+            var value = _companyService.Put(Id, updateCompanyDto);
+            return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
 
         [HttpDelete("{Id}")]
         public IActionResult Delete(int Id)
         {
-            return Ok(_companyService.Delete(Id));
+            var value = _companyService.Delete(Id);
+            return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
     }
 }
