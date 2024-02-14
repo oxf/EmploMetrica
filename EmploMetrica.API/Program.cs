@@ -6,6 +6,7 @@ using EmploMetrica.Domain;
 using System.Text.Json.Serialization;
 using EmploMetrica.API.Middleware;
 using EmploMetrica.Application.UseCases.Companies;
+using EmploMetrica.Application.UseCases.Departments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 var app = builder.Build();
 

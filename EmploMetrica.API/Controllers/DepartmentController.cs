@@ -25,14 +25,14 @@ namespace EmploMetrica.API.Controllers
         [HttpPost("{CompanyId}/department")]
         public IActionResult Post(int CompanyId, [FromBody] CreateDepartmentDTO departmentDto)
         {
-            var value = _departmentService.Post(departmentDto, CompanyId);
+            var value = _departmentService.Create(CompanyId, departmentDto);
             return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
 
         [HttpPut("{CompanyId}/department/{Id}")]
         public IActionResult Put(int CompanyId, int Id, [FromBody] UpdateDepartmentDTO updateDepartmentDto)
         {
-            var value = _departmentService.Put(CompanyId, Id, updateDepartmentDto);
+            var value = _departmentService.Edit(CompanyId, Id, updateDepartmentDto);
             return value.Success ? base.Ok(value.Data) : BadRequest(value.Errors);
         }
 

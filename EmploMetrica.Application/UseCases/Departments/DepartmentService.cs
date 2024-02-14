@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EmploMetrica.Application.UseCases.Departments
 {
-    public class DepartmentService(AppDbContext _db, IMapper _mapper)
+    public class DepartmentService(AppDbContext _db, IMapper _mapper): ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO>
     {
         public Result<List<GetDepartmentDTO>> Get(int CompanyId)
         {
@@ -47,7 +47,7 @@ namespace EmploMetrica.Application.UseCases.Departments
             }
             return new Result<GetDepartmentDTO>(true, result, null);
         }
-        public Result<GetDepartmentDTO> Post(CreateDepartmentDTO DepartmentDto, int CompanyId)
+        public Result<GetDepartmentDTO> Create(int CompanyId, CreateDepartmentDTO DepartmentDto)
         {
             Department Department = _mapper.Map<Department>(DepartmentDto);
 
@@ -74,7 +74,7 @@ namespace EmploMetrica.Application.UseCases.Departments
             return true;
         }
 
-        public Result<GetDepartmentDTO> Put(int CompanyId, int Id, UpdateDepartmentDTO updatedDepartment)
+        public Result<GetDepartmentDTO> Edit(int CompanyId, int Id, UpdateDepartmentDTO updatedDepartment)
         {
             Company company = _db.CompanyDbSet.Find(CompanyId);
             if (company == null)

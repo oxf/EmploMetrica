@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EmploMetrica.Application.UseCases.Companies
 {
-    public class CompanyService(AppDbContext _db, IMapper _mapper): CrudService
+    public class CompanyService(AppDbContext _db, IMapper _mapper): ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>
     {
         public Result<List<GetCompanyDTO>> Get()
         {
@@ -30,37 +30,37 @@ namespace EmploMetrica.Application.UseCases.Companies
                 return new Result<GetCompanyDTO>(false, null, new List<string> { "Company Not Found" });
             }
         }
-        public Result<GetCompanyDTO> Post(CreateCompanyDTO companyDto)
+        public Result<GetCompanyDTO> Create(CreateCompanyDTO createDto)
         {
-            Company company = _mapper.Map<Company>(companyDto);
+            Company company = _mapper.Map<Company>(createDto);
             //validate
             _db.CompanyDbSet.Add(company);
             _db.SaveChanges();
             return new Result<GetCompanyDTO>(true, _mapper.Map<GetCompanyDTO>(company), null);
         }
 
-        public Result<GetCompanyDTO> Put(int Id, UpdateCompanyDTO updateCompanyDto)
+        public Result<GetCompanyDTO> Edit(int Id, UpdateCompanyDTO updateDto)
         {
             var company = _db.CompanyDbSet.Find(Id);
             if (company == null)
             {
                 return new Result<GetCompanyDTO>(false, null, new List<string> { "Company Not Found" });
             }
-            _mapper.Map(updateCompanyDto, company);
+            _mapper.Map(updateDto, company);
             _db.SaveChanges();
             return new Result<GetCompanyDTO>(true, _mapper.Map<GetCompanyDTO>(company), null);
             
         }
-        public Result<GetCompanyDTO> Delete(int Id)
+        public Result<bool> Delete(int Id)
         {
             var company = _db.CompanyDbSet.Find(Id);
             if (company == null)
             {
-                return new Result<GetCompanyDTO>(false, null, new List<string> { "Company Not Found" });
+                return new Result<bool>(false, false, new List<string> { "Company Not Found" });
             }
             _db.CompanyDbSet.Remove(company);
             _db.SaveChanges();
-            return new Result<GetCompanyDTO>(true, null, null);
+            return new Result<bool>(true, true, null);
         }
     }
 }
