@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmploMetrica.Application.Interfaces;
 using EmploMetrica.Domain.Companies;
 using EmploMetrica.Domain.Interfaces;
 using EmploMetrica.Domain.Shared;

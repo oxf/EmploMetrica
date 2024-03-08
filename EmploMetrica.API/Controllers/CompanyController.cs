@@ -1,4 +1,5 @@
 using AutoMapper;
+using EmploMetrica.Application.Interfaces;
 using EmploMetrica.Application.UseCases.Companies;
 using EmploMetrica.Domain.Companies;
 using EmploMetrica.Persistence.Contexts;
@@ -10,7 +11,9 @@ namespace EmploMetrica.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CompanyController(CompanyService _companyService) : ControllerBase
+    public class CompanyController(
+        ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO> _companyService
+    ) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()

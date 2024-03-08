@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmploMetrica.Application
+namespace EmploMetrica.Application.Interfaces
 {
-    internal interface ICrudService<T,U,V>
+    public interface ICrudService<T, U, V>
     {
         public Result<List<T>> Get();
         public Result<T> GetById(int Id);

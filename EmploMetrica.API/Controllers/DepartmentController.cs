@@ -1,12 +1,15 @@
+using EmploMetrica.Application.Interfaces;
 using EmploMetrica.Application.UseCases.Departments;
 using EmploMetrica.Domain.Departments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmploMetrica.API.Controllers
 {
     [ApiController]
     [Route("Company")]
-    public class DepartmentController(DepartmentService _departmentService) : ControllerBase
+    [Authorize]
+    public class DepartmentController(ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO> _departmentService) : ControllerBase
     {
         [HttpGet("{CompanyId}/department/")]
         public IActionResult Get(int CompanyId)
