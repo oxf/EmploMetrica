@@ -13,6 +13,9 @@ using EmploMetrica.Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using EmploMetrica.Application.UseCases;
+using EmploMetrica.Infrastructure;
+using EmploMetrica.Application.UseCases.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +26,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ExceptionHandlingMiddleware>();
-builder.Services.AddScoped<ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>, CompanyService>();
-builder.Services.AddScoped<ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO>, DepartmentService>();
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
 
@@ -47,6 +43,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
      };
  });
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
+builder.Services.AddScoped<ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>, CompanyService>();
+builder.Services.AddScoped<ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO>, DepartmentService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<IAuthTokenService, JwtAuthService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

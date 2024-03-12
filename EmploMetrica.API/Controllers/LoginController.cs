@@ -1,39 +1,40 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
+﻿using EmploMetrica.Application.UseCases;
+using EmploMetrica.Domain.Users;
+using EmploMetrica.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using IAuthenticationService = EmploMetrica.Application.UseCases.IAuthenticationService;
 
 namespace EmploMetrica.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController(IAuthenticationService _authenticationService) : ControllerBase
     {
-        private IConfiguration _config;
-        public LoginController(IConfiguration config)
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody] RegisterDto registerDto)
         {
-            _config = config;
+            var res = _authenticationService.Register(registerDto);
+            if (res.Success) return Ok(res);
+            else return Unauthorized(res.Errors);
         }
-
-        [HttpPost]
-        public IActionResult Post([FromBody] LoginRequest loginRequest)
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody] LoginDto loginDto)
         {
-            //your logic for login process
-            //If login usrename and password are correct then proceed to generate token
-
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var Sectoken = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              null,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
-
-            var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
-
-            return Ok(token);
+            var res = _authenticationService.Login(loginDto);
+            if (res.Success) return Ok(res);
+            else return Unauthorized(res.Errors);
+        }
+        [HttpPost("Refresh")]
+        public IActionResult Refresh([FromBody] RefreshToken RefreshTokenRequest)
+        {
+            var res = _authenticationService.Refresh(RefreshTokenRequest);
+            if (res.Success) return Ok(res);
+            else return Unauthorized(res.Errors);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EmploMetrica.Domain.Companies;
 using EmploMetrica.Domain.Departments;
+using EmploMetrica.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace EmploMetrica.Persistence.Contexts
         }
         public DbSet<Company> CompanyDbSet { get; set; }
         public DbSet<Department> DepartmentDbSet { get; set; }
+        public DbSet<User> UserDbSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmploMetrica.Application\EmploMetrica.Application.csproj" />
+    <ProjectReference Include="..\EmploMetrica.Infrastructure\EmploMetrica.Infrastructure.csproj" />
     <ProjectReference Include="..\EmploMetrica.Persistence\EmploMetrica.Persistence.csproj" />
   </ItemGroup>
 
