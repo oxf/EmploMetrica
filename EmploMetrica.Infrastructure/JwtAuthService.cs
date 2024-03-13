@@ -22,6 +22,8 @@ namespace EmploMetrica.Infrastructure
 
             var TokenDescriptor = new SecurityTokenDescriptor
             {
+                Audience = _config["Jwt:Issuer"],
+                Issuer = _config["Jwt:Issuer"],
                 Subject = new ClaimsIdentity(new[] { new Claim("Id", UserId.ToString()) }),
                 Expires = DateTime.UtcNow.AddMinutes(5), // Token expiration time
                 SigningCredentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256Signature)
@@ -44,9 +46,11 @@ namespace EmploMetrica.Infrastructure
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Audience = _config["Jwt:Issuer"],
+                Issuer = _config["Jwt:Issuer"],
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7), // Example: Refresh token expiration time (e.g., 7 days)
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:RefreshTokenKey"])), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])), SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
