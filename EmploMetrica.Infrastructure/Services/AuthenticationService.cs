@@ -2,7 +2,8 @@
 using EmploMetrica.Application.UseCases.Users;
 using EmploMetrica.Domain.Shared;
 using EmploMetrica.Domain.Users;
-using EmploMetrica.Infrastructure;
+using EmploMetrica.Infrastructure.Interfaces.Authentication;
+using EmploMetrica.Infrastructure.Model;
 using EmploMetrica.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmploMetrica.Application.UseCases
+namespace EmploMetrica.Infrastructure.Services
 {
-    public class AuthenticationService(IUserService _userService, 
-        IAuthTokenService _authTokenService): IAuthenticationService
+    public class AuthenticationService(IUserService _userService,
+        IAuthTokenService _authTokenService) : IAuthenticationService
     {
         public Result<User> Register(RegisterDto registerDto)
         {
@@ -23,12 +24,12 @@ namespace EmploMetrica.Application.UseCases
         {
             //get user by email
             var user = _userService.GetUserByEmail(loginDto.Email);
-            if(user == null)
+            if (user == null)
             {
                 return new Result<TokenResponse>(false, null, ["Login unsuccessful"]);
             }
             //check password
-            if(user.Password != loginDto.Password)
+            if (user.Password != loginDto.Password)
             {
                 return new Result<TokenResponse>(false, null, ["Login unsuccessful"]);
             }

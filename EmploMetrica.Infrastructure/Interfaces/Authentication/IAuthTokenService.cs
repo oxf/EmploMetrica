@@ -1,6 +1,6 @@
 ﻿using EmploMetrica.Domain.Users;
 
-namespace EmploMetrica.Infrastructure
+namespace EmploMetrica.Infrastructure.Interfaces.Authentication
 {
     public interface IAuthTokenService
     {

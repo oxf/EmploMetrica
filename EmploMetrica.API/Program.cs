@@ -13,18 +13,58 @@ using EmploMetrica.Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using EmploMetrica.Application.UseCases;
-using EmploMetrica.Infrastructure;
 using EmploMetrica.Application.UseCases.Users;
+using MassTransit;
+using EmploMetrica.Infrastructure.Services;
+using EmploMetrica.Infrastructure.Interfaces.Authentication;
+using EmploMetrica.Infrastructure.Configuration;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// API
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
+builder.Services.AddControllers();
+
+
+// Persistence
 builder.Services.AddDbContext<AppDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
                    builder => builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
-builder.Services.AddControllers();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+// Messaging
+builder.Services.Configure<RabbitMqConfiguration>(builder.Configuration.GetSection("RabbitMq"));
+builder.Services.AddSingleton<RabbitMqConfiguration>(
+    sg => sg.GetRequiredService<IOptions<RabbitMqConfiguration>>().Value    
+);
+builder.Services.AddMassTransit(busConfigurator =>
+{
+    busConfigurator.UsingRabbitMq((context, configurator) =>
+    {
+        RabbitMqConfiguration configuration = context.GetRequiredService<RabbitMqConfiguration>();
+        configurator.Host(new Uri(configuration.Host), h =>
+        {
+            h.Username(configuration.Username);
+            h.Password(configuration.Password);
+        });
+    });
+});
+builder.Services.AddTransient<IMessageProducer, RabbitMqMessageProducer>();
+builder.Services.AddTransient<IMessageConsumer, RabbitMqMessageConsumer>();
+
+
+// Application Services
+builder.Services.AddScoped<ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>, CompanyService>();
+builder.Services.AddScoped<ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO>, DepartmentService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Infrastructure Services
+builder.Services.AddScoped<IAuthTokenService, JwtAuthService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
@@ -43,16 +83,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
      };
  });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ExceptionHandlingMiddleware>();
-builder.Services.AddScoped<ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>, CompanyService>();
-builder.Services.AddScoped<ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO>, DepartmentService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddScoped<IAuthTokenService, JwtAuthService>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

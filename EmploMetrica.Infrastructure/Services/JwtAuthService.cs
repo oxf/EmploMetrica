@@ -1,6 +1,6 @@
 ﻿using EmploMetrica.Domain.Users;
+using EmploMetrica.Infrastructure.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EmploMetrica.Infrastructure
+namespace EmploMetrica.Infrastructure.Services
 {
     public class JwtAuthService(IConfiguration _config,
         IOptionsMonitor<JwtBearerOptions> _jwtBearerOptions) : IAuthTokenService

@@ -1,13 +1,12 @@
-﻿using EmploMetrica.Application.UseCases;
-using EmploMetrica.Domain.Users;
-using EmploMetrica.Infrastructure;
+﻿using EmploMetrica.Domain.Users;
+using EmploMetrica.Infrastructure.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using IAuthenticationService = EmploMetrica.Application.UseCases.IAuthenticationService;
+using IAuthenticationService = EmploMetrica.Infrastructure.Interfaces.Authentication.IAuthenticationService;
 
 namespace EmploMetrica.API.Controllers
 {

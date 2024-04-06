@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmploMetrica.Infrastructure
+namespace EmploMetrica.Infrastructure.Model
 {
     public class TokenResponse
     {
