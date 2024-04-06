@@ -19,6 +19,7 @@ using EmploMetrica.Infrastructure.Services;
 using EmploMetrica.Infrastructure.Interfaces.Authentication;
 using EmploMetrica.Infrastructure.Configuration;
 using Microsoft.Extensions.Options;
+using EmploMetrica.Application.UseCases.Time;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,9 +61,13 @@ builder.Services.AddTransient<IMessageConsumer, RabbitMqMessageConsumer>();
 builder.Services.AddScoped<ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>, CompanyService>();
 builder.Services.AddScoped<ICrudChildService<GetDepartmentDTO, CreateDepartmentDTO, UpdateDepartmentDTO>, DepartmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ProduceTimeEventUseCase>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Infrastructure Services
+builder.Services.AddLogging(logger =>
+    logger.AddConsole()
+);
 builder.Services.AddScoped<IAuthTokenService, JwtAuthService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
