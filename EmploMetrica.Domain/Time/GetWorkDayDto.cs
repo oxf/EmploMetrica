@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmploMetrica.Application.Interfaces
+namespace EmploMetrica.Domain.Time
 {
-    public interface IMessageConsumer
-    {
-    }
+    public record GetWorkDayDto(int Id, DateTime Date);
 }

@@ -16,7 +16,7 @@ namespace EmploMetrica.Application.UseCases.Time
         public Task CreateWorkDay(CancellationToken cancellationToken)
         {
             CreateWorkDayDto newWorkDay = new CreateWorkDayDto(DateTime.UtcNow);
-            _logger.LogInformation($"New WorkDay sent: {newWorkDay.ToString()}");
+            _logger.LogInformation($"New WorkDay triggered: {newWorkDay.ToString()}");
             return _messageProducer.SendAsync<CreateWorkDayDto>(newWorkDay, cancellationToken);
         }
     }

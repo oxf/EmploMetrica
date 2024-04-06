@@ -20,6 +20,7 @@ using EmploMetrica.Infrastructure.Interfaces.Authentication;
 using EmploMetrica.Infrastructure.Configuration;
 using Microsoft.Extensions.Options;
 using EmploMetrica.Application.UseCases.Time;
+using MassTransit.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,8 @@ builder.Services.AddSingleton<RabbitMqConfiguration>(
 );
 builder.Services.AddMassTransit(busConfigurator =>
 {
+    busConfigurator.SetKebabCaseEndpointNameFormatter();
+    busConfigurator.AddConsumer<ConsumeTimeEventUseCase>();
     busConfigurator.UsingRabbitMq((context, configurator) =>
     {
         RabbitMqConfiguration configuration = context.GetRequiredService<RabbitMqConfiguration>();
@@ -51,11 +54,10 @@ builder.Services.AddMassTransit(busConfigurator =>
             h.Username(configuration.Username);
             h.Password(configuration.Password);
         });
+        configurator.ConfigureEndpoints(context);
     });
 });
 builder.Services.AddTransient<IMessageProducer, RabbitMqMessageProducer>();
-builder.Services.AddTransient<IMessageConsumer, RabbitMqMessageConsumer>();
-
 
 // Application Services
 builder.Services.AddScoped<ICrudService<GetCompanyDTO, CreateCompanyDTO, UpdateCompanyDTO>, CompanyService>();
